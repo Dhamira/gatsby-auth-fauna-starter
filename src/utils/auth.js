@@ -39,7 +39,7 @@ export const login = () => {
 
 const setSession = (cb = () => {}) => (err, authResult) => {
   if (err) {
-    navigate("/")
+    logout()
     cb()
     return
   }
@@ -60,7 +60,7 @@ const setSession = (cb = () => {}) => (err, authResult) => {
 
 export const silentAuth = (callback) => {
   if (!isAuthenticated()) return callback()
-  auth.checkSession({}, setSession(callback))
+  auth.checkSession({response_mode: "web_message"}, setSession(callback))
 }
 
 export const handleAuthentication = () => {
@@ -78,4 +78,5 @@ export const getProfile = () => {
 export const logout = () => {
   localStorage.setItem("isLoggedIn", false)
   auth.logout()
+  navigate("/");
 }
